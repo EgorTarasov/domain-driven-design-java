@@ -1,0 +1,208 @@
+@startuml
+title STR — Доменная модель
+
+skinparam classAttributeIconSize 0
+
+' ===== ENUMS =====
+enum UserRole {
+  GUEST
+  HOST
+  ADMIN
+}
+
+enum ListingStatus {
+  DRAFT
+  PUBLISHED
+  BLOCKED
+}
+
+enum BookingStatus {
+  CREATED
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+enum ModerationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+' ===== ENTITIES =====
+
+class User {
+  +id: UUID
+  +email: String
+  +phone: String
+  +role: UserRole
+  +createdAt: DateTime
+}
+
+class Listing {
+  +id: UUID
+  +title: String
+  +description: Text
+  +pricePerDay: Money
+  +minStayDays: Int
+  +maxStayDays: Int
+  +status: ListingStatus
+  +createdAt: DateTime
+}
+
+class Address {
+  +country: String
+  +city: String
+  +street: String
+  +house: String
+  +lat: Decimal
+  +lng: Decimal
+}
+
+class Image {
+  +id: UUID
+  +url: String
+  +position: Int
+}
+
+class Booking {
+  +id: UUID
+  +checkIn: Date
+  +checkOut: Date
+  +status: BookingStatus
+  +totalPrice: Money
+  +createdAt: DateTime
+}
+
+class Availability {
+  +id: UUID
+  +date: Date
+  +isAvailable: Boolean
+  +priceOverride: Money
+}
+
+class Moderation {
+  +id: UUID
+  +status: ModerationStatus
+  +comment: String
+  +moderatedAt: DateTime
+}
+
+' ===== RELATIONSHIPS =====
+
+User "1" -- "0..*" Listing : owns
+User "1" -- "0..*" Booking : creates
+
+Listing "1" *-- "1" Address
+Listing "1" *-- "1..*" Image
+Listing "1" *-- "0..*" Booking
+Listing "1" *-- "0..*" Availability
+Listing "1" -- "1" Moderation
+
+Booking "1" --> "1" Listing : for
+
+@enduml
+
+title STR — Доменная модель
+
+skinparam classAttributeIconSize 0
+
+' ===== ENUMS =====
+enum UserRole {
+  GUEST
+  HOST
+  ADMIN
+}
+
+enum ListingStatus {
+  DRAFT
+  PUBLISHED
+  BLOCKED
+}
+
+enum BookingStatus {
+  CREATED
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+enum ModerationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+' ===== ENTITIES =====
+
+class User {
+  +id: UUID
+  +email: String
+  +phone: String
+  +role: UserRole
+  +createdAt: DateTime
+}
+
+class Listing {
+  +id: UUID
+  +title: String
+  +description: Text
+  +pricePerDay: Money
+  +minStayDays: Int
+  +maxStayDays: Int
+  +status: ListingStatus
+  +createdAt: DateTime
+}
+
+class Address {
+  +country: String
+  +city: String
+  +street: String
+  +house: String
+  +lat: Decimal
+  +lng: Decimal
+}
+
+class Image {
+  +id: UUID
+  +url: String
+  +position: Int
+}
+
+class Booking {
+  +id: UUID
+  +checkIn: Date
+  +checkOut: Date
+  +status: BookingStatus
+  +totalPrice: Money
+  +createdAt: DateTime
+}
+
+class Availability {
+  +id: UUID
+  +date: Date
+  +isAvailable: Boolean
+  +priceOverride: Money
+}
+
+class Moderation {
+  +id: UUID
+  +status: ModerationStatus
+  +comment: String
+  +moderatedAt: DateTime
+}
+
+' ===== RELATIONSHIPS =====
+
+User "1" -- "0..*" Listing : owns
+User "1" -- "0..*" Booking : creates
+
+Listing "1" *-- "1" Address
+Listing "1" *-- "1..*" Image
+Listing "1" *-- "0..*" Booking
+Listing "1" *-- "0..*" Availability
+Listing "1" -- "1" Moderation
+
+Booking "1" --> "1" Listing : for
+
+@enduml
